@@ -1,33 +1,29 @@
 .clearfix::after {
-    content: "";
-    clear: both;
-    display: table;
-  }
+  content: "";
+  clear: both;
+  display: table;
+}
 
-  #button1{
-    background-image: url(../images/li.png);
-    background-repeat: no-repeat;
-    height: 60px;
-    width: 45px;
-    border:none;
-    /* z-index: 5px; */
-    position: absolute;
-    top: 150px;
-    cursor: pointer;
-    background-color: Transparent;
-  }
+
+.main-wrapper{
+  width: 100%;
+}
+
+.Container{
+  width: 40%;
+  height: 300px;
+  margin-bottom: 50px;
+  float: left;
+  margin-left: 5%;
+}
+
+.Container .wrapper{
+  width: 100%;
+  height: 300px;
+}
+
+.Container .wrapper img{
+  width: 100%;
+  height: 100%;
   
-  #button2{
-    background-image: url(../images/right-icon.png);
-    background-repeat: no-repeat;
-    height: 60px;
-    width: 45px;
-    left: 755px;
-    border:none;
-    /* z-index: 5px; */
-    position: absolute;
-    top: 150px;
-    cursor: pointer;
-    background-color: Transparent;
-  }
-
+}

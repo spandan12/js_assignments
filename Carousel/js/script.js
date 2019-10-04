@@ -59,11 +59,11 @@
             this.setRightButtonProperty();
             // this.slideLeft();
             if(this.isLeft){
-                // this.slideLeft();
+                this.autoLeft();
             }
 
             else{
-                // this.slideRight();
+                this.autoRight();
             }
             
 
@@ -112,6 +112,7 @@
         }.bind(this);
 
         this.createSelectors = function (){
+            var i;
             for(i = 0; i < (this.imagecount); i++){
                 // images[i].classList.add('image'+(i+1));
                 this.selectors[i] = document.createElement('button');
@@ -127,8 +128,33 @@
                     color: 'white'
                 });
                 this.selectorWrapper.appendChild(this.selectors[i]);
+                // this.selectors[i]. onclick = function(){
+                //     this.wrapperPosition = i * (-this.imageWidth);
+                //     console.log(this.wrapperPosition);
+                //     this.wrapper.left = `${this.wrapperPosition}px`;
+                //     for(j=0;j<(this.imagecount);j++){
+                //         if(j==i){
+                //             Object.assign(this.selectors[j].style,{
+                //                 color: 'green',
+                //                 backgroundColor : 'green'
+                //             });
+                //         }
+                //         else{
+                //             Object.assign(this.selectors[j].style,{
+                //                 color: 'white',
+                //                 backgroundColor : 'white'
+                //             });
+
+                //         }
+                //     }
+                // }.bind(this);
+
             }
         }.bind(this);
+
+        this.selectImage = function(){
+
+        }
 
 
         this.setSelWrapperProperty = function(){
@@ -185,6 +211,44 @@
         }.bind(this);
 
 
+        this.autoslideRight = function(){
+           
+            var counter=0;
+            var that=this;
+            var interval = setInterval(function() {
+                var toCheckValue = that.imageWidth/(1000/FPS); 
+                var targetValue = -(that.imagecount * that.imageWidth) + (that.imageWidth/(1000/FPS));
+                if(parseInt(that.wrapperPosition) == parseInt(toCheckValue)){
+                    that.wrapper.style.left=`${targetValue}px`;
+                    that.wrapperPosition=that.getWrapperPosition();
+                }
+                that.wrapperPosition += (that.imageWidth/(1000/FPS));
+                that.checkActiveSelect();
+                that.wrapper.style.left=`${that.wrapperPosition}px`;
+                counter++;
+                if(counter==10){
+                    clearInterval(interval);
+                }
+            },FPS);
+            
+        }.bind(this);
+
+
+
+
+
+        this.autoRight = function(){
+            var that=this;
+            var interval1 = setInterval(function(){
+                
+                 that.autoslideRight();   
+                 console.log('value');
+            },4000);
+        }.bind(this);
+
+        
+        
+
         this.slideLeft = function(){
             this.left.onclick= function(){
                     var counter=0;
@@ -203,17 +267,6 @@
                         
                         that.wrapper.style.left=`${that.wrapperPosition}px`;
                         counter++;
-
-                        // this.checkActiveSelect(this.wrapperPosition);
-
-                        // console.log(that.wrapperPosition);
-                        // console.log(that.imageWidth);
-                        // console.log((that.wrapperPosition == -that.imageWidth))
-                        if((that.wrapperPosition % -that.imageWidth)==0){
-                            
-                            // pauseSeconds(1000);
-                        }
-                        
                         if(counter==10){
                             clearInterval(interval);
                         }
@@ -222,6 +275,40 @@
                 }.bind(this);
                 
         }.bind(this);
+
+        this.autoslideLeft = function(){
+                    var counter=0;
+                    var that=this;
+                    var interval = setInterval(function() {
+                        var toCheckValue= -(that.imagecount * that.imageWidth) + (that.imageWidth/(1000/FPS)); 
+                        if(parseInt(that.wrapperPosition) == parseInt(toCheckValue)){
+                            that.wrapper.style.left=`${0}px`;
+                            that.wrapperPosition=that.getWrapperPosition();
+                        } 
+                        
+                        
+                        that.wrapperPosition -= (that.imageWidth/(1000/FPS));
+                        that.checkActiveSelect();
+                        // console.log(that.wrapperPosition);
+                        
+                        that.wrapper.style.left=`${that.wrapperPosition}px`;
+                        counter++;
+                        if(counter==10){
+                            clearInterval(interval);
+                        }
+                    },FPS);
+                
+        }.bind(this);
+
+        this.autoLeft = function(){
+            var that=this;
+            var interval1 = setInterval(function(){
+                
+                 that.autoslideLeft();   
+                 console.log('value');
+            },4000);
+        }.bind(this);
+
 
         this.setLeftButtonProperty = function(){
             // this.left.onclick = this.slideLeft();

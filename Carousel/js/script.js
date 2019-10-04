@@ -141,8 +141,9 @@
         }
 
 
-        this.checkActiveSelect = function(leftwrapper){
-            activeIndex = Math.round(leftwrapper/this.imageWidth);
+        this.checkActiveSelect = function(){
+            activeIndex = Math.abs(Math.round(this.wrapperPosition/this.imageWidth));
+            console.log(activeIndex);
             for(i = 0; i < (this.imagecount); i++){
                 if(i==activeIndex){
                     Object.assign(this.selectors[i].style,{
@@ -158,7 +159,7 @@
                 }
             }   
 
-        }
+        }.bind(this);
 
         this.slideRight = function(){
             this.right.onclick =  function(){
@@ -172,6 +173,7 @@
                         that.wrapperPosition=that.getWrapperPosition();
                     }
                     that.wrapperPosition += (that.imageWidth/(1000/FPS));
+                    that.checkActiveSelect();
                     that.wrapper.style.left=`${that.wrapperPosition}px`;
                     counter++;
                     if(counter==10){
@@ -188,7 +190,6 @@
                     var counter=0;
                     var that=this;
                     var interval = setInterval(function() {
-                        
                         var toCheckValue= -(that.imagecount * that.imageWidth) + (that.imageWidth/(1000/FPS)); 
                         if(parseInt(that.wrapperPosition) == parseInt(toCheckValue)){
                             that.wrapper.style.left=`${0}px`;
@@ -197,7 +198,8 @@
                         
                         
                         that.wrapperPosition -= (that.imageWidth/(1000/FPS));
-                        that.checkActiveSelect(that.wrapperPosition);
+                        that.checkActiveSelect();
+                        // console.log(that.wrapperPosition);
                         
                         that.wrapper.style.left=`${that.wrapperPosition}px`;
                         counter++;

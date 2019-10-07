@@ -1,4 +1,5 @@
-var DIRECTION = [-5,-4,-3,3,4,5];
+// var DIRECTION = [-5,-4,-3,3,4,5];
+var DIRECTION = [1,1,1,1,1,1];
 var MAXSPEED = 3;
 var WIDTHS = [50,60,70];
 var MASS = [40,50];
@@ -21,6 +22,7 @@ class Box {
         this.dx = 0;
         this.dx = 0;
         this.radius = radius;
+        
     }
 
     create(){
@@ -35,6 +37,7 @@ class Box {
         this.boxElement.style.top = this.boxY + 'px'; 
         
         this.parentElement.appendChild(this.boxElement);
+        return this.boxElement;
     }
 
 
@@ -89,6 +92,7 @@ class Box {
         }
     }
 
+
     isYWallCollision(){
         if(((this.boxY + (2.3*this.radius)) >= 1050) || ((this.boxY-this.radius) <=0) ){
             return true;
@@ -98,6 +102,7 @@ class Box {
         }
     }
 
+
 }
 
 class Game{
@@ -106,6 +111,8 @@ class Game{
         this.noOfBoxes = noOfBoxes;
         this.boxes = [];
         this.createBoxes();
+        this.Scorecount = 0;
+        this.smash();
 
     }
 
@@ -113,14 +120,50 @@ class Game{
         for(var i = 0; i < this.noOfBoxes; i++) {
             var randWidth = randomNumber(0,WIDTHS.length);
             var box = new Box(this.parentElement,WIDTHS[randWidth]);
-            box.create();
+            var DomBox=box.create();
             var rand1 = randomNumber(2,5);
             var rand2 = randomNumber(2,5);
             box.setDirection(rand1,rand2);
             // box.setSpeed(3,3);
             this.boxes.push(box);
+            // var that = this;
+            // this.setOnClick();
+        
+                        
+            }
+    }
+    
+    smash(){
+        // console.log(this.parentElement.children);
+        var DOMboxes = this.parentElement.children;
+        for( let y= 0; y< DOMboxes.length ; y++ ){
+            DOMboxes[y].onclick =  function(){
+                    this.boxes.splice(y,1);
+                    this.parentElement.removeChild(DOMboxes[y]);
+                    this.Scorecount++;
+                    console.log(this.Scorecount);
+                        // console.log(this.Scorecount);
+                }.bind(this);
         }
     }
+
+    showScore(){
+        document.getElementById('score-wrapper').innerHTML = 'Score: ' + this.Scorecount;
+    }
+
+    // setOnClick(){
+    //     var that = this;
+    //     console.log(this.boxes);
+    //     // console.log(index);
+    //     for(let y = 0; y<that.noOfBoxes; y++){
+    //         that.boxes[0].onclick = function(){
+    //             console.log('hurray');
+    //         }
+    //     }
+        
+    // } 
+
+
 
     detectCollision(box1,box2){
         var radiusSum = (box1.radius/2) + (box2.radius/2);
@@ -132,7 +175,7 @@ class Game{
         var radiusSquare = radiusSum * radiusSum;
         
         if(distance <= radiusSquare){
-            console.log(true);
+            // console.log(true);
             return true;
         }
         else{
@@ -156,7 +199,9 @@ class Game{
     moveBoxes(){
         var that=this;
         var Interval = setInterval(function(){
-            for(var i = 0; i < that.noOfBoxes; i++) {
+            for(var i = 0; i < that.boxes.length; i++) {
+                
+
                 if(that.boxes[i].isXWallCollision()){
                     that.boxes[i].reverseXDirection();
                     // that.boxes[i].reverseYDirection();
@@ -167,6 +212,8 @@ class Game{
                 }
                 that.boxes[i].move();
             }  
+            that.smash();
+            that.showScore();
             that.detectAllCollision();
         }, 10);
     }
@@ -174,5 +221,5 @@ class Game{
 }
 
 var parent = document.getElementsByClassName('main-wrapper')[0];
-var newGame = new Game(parent,20);
+var newGame = new Game(parent,50);
 newGame.moveBoxes();

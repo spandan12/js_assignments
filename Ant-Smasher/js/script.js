@@ -20,8 +20,9 @@ class Box {
         this.index = randomNumber(0,COLORS.length);
         this.mass = MASS[this.index];
         this.dx = 0;
-        this.dx = 0;
+        this.dy = 0;
         this.radius = radius;
+        this.angle = -40;
         
     }
 
@@ -35,11 +36,13 @@ class Box {
         // this.boxElement.style.backgroundColor = COLORS[this.index] + '';
         this.boxElement.style.left = this.boxX + 'px';
         this.boxElement.style.top = this.boxY + 'px'; 
+        this.boxElement.style.transform = `rotate(${this.angle}deg)`;
         
         this.parentElement.appendChild(this.boxElement);
         return this.boxElement;
     }
 
+   
 
     setDirection(a,b){
         this.dx = DIRECTION[a];
@@ -52,6 +55,12 @@ class Box {
 
     reverseYDirection(){
         this.dy *= -1;
+    }
+
+    calculateAngle(){
+        var theta = Math.atan2(this.dy, this.dx); // range (-PI, PI]
+        theta *= 180 / Math.PI;
+        return theta;
     }
 
 
@@ -74,6 +83,8 @@ class Box {
     draw(){
         this.boxElement.style.left = this.boxX + 'px';
         this.boxElement.style.top = this.boxY + 'px';
+        this.angle = 50+ this.calculateAngle();
+        this.boxElement.style.transform = `rotate(${this.angle}deg)`;
     }
 
     move(){
@@ -200,13 +211,17 @@ class Game{
         var that=this;
         var Interval = setInterval(function(){
             for(var i = 0; i < that.boxes.length; i++) {
-                
+                if(that.boxes[i].isXWallCollision() && that.boxes[i].isYWallCollision()){
+                    
+                    that.boxes[i].reverseXDirection();
+                    that.boxes[i].reverseYDirection();
+                }
 
-                if(that.boxes[i].isXWallCollision()){
+                else if(that.boxes[i].isXWallCollision()){
                     that.boxes[i].reverseXDirection();
                     // that.boxes[i].reverseYDirection();
                 }
-                if(that.boxes[i].isYWallCollision()){
+                else if(that.boxes[i].isYWallCollision()){
                     // that.boxes[i].reverseXDirection();
                     that.boxes[i].reverseYDirection();
                 }

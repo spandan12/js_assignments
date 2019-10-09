@@ -1,10 +1,10 @@
 var DIRECTION = [-5,-4,-3,3,4,5];
 var MAXSPEED = 3;
-var WIDTHS = [50,60,70];
+var WIDTHS = [69,70];
 var MASS = [30,40,50];
 var MAXWIDTH = 1200-140;
 var MAXHEIGHT = 1000-140;
-var COLORS = ['red', 'green', 'blue'];
+var COLORS = ['red', 'green', 'blue', 'yellow', 'orange', 'black', '#C0C0C0', 'purple' , 'olive'];
 
 function randomNumber(min, max){
     min = Math.ceil(min);
@@ -82,7 +82,7 @@ class Box {
     }
 
     isXWallCollision(){
-        if(((this.boxX + (2.3*this.radius)) >= 1250) || ((this.boxX) <=0) ){
+        if(((this.boxX + (2 * this.radius)) >= 1270) || ((this.boxX) <=0) ){
             return true;
         }
         else{
@@ -91,7 +91,7 @@ class Box {
     }
 
     isYWallCollision(){
-        if(((this.boxY + (2.3*this.radius)) >= 1050) || ((this.boxY-this.radius) <=0) ){
+        if(((this.boxY + (2 * this.radius)) >= 1050) || ((this.boxY) <=0) ){
             return true;
         }
         else{
@@ -169,7 +169,7 @@ class Game{
                 that.boxes[i].move();
             }  
             that.detectAllCollision();
-        }, 10);
+        }, 50);
     }
 
 }

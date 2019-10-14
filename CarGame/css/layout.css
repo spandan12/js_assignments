@@ -6,9 +6,49 @@
 
 
 canvas{
-   background-color: black;
+   /* background-color: black; */
    margin-left: 300px;
+   position: relative;
+   background-image: url(../images/background.PNG);
   }
 
+ #text{
+   cursor: pointer;
+   position: absolute;
+   top: 250px;
+   left: 500px;
+   height: 50px;
+   width: 200px;
+   font-size: 24px;
+   background-color: transparent;
+   border: none;
+   color: white;
+ } 
+
+ #score{
+  position: absolute;
+  top: 0px;
+  left: 300px;
+  height: 30px;
+  width: 100px;
+  font-size: 16px;
+  background-color:black;
+  border: none;
+  color:white;
+ }
+
+ #game-over{
+  position: absolute;
+  top: 200px;
+  left: 500px;
+  height: 50px;
+  width: 200px;
+  font-size: 24px;
+  text-align: center;
+  background-color: transparent;
+  border: none;
+  color: rgb(235, 238, 235);
+  display: none;
+} 
 
 

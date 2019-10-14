@@ -1,0 +1,14 @@
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+
+canvas{
+   background-color: black;
+   margin-left: 300px;
+  }
+
+
+

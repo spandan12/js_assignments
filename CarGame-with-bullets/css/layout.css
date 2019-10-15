@@ -37,6 +37,18 @@ canvas{
   color:white;
  }
 
+ #bullets{
+  position: absolute;
+  top: 0px;
+  left: 800px;
+  height: 30px;
+  width: 100px;
+  font-size: 20px;
+  background-color:black;
+  border: none;
+  color:white;
+ }
+
  #game-over{
   position: absolute;
   top: 200px;

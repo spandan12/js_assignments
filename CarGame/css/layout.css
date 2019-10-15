@@ -28,10 +28,22 @@ canvas{
  #score{
   position: absolute;
   top: 0px;
-  left: 300px;
+  left: 310px;
+  height: 30px;
+  width: 30px;
+  font-size: 24px;
+  background-color:black;
+  border: none;
+  color:white;
+ }
+
+ #bullets{
+  position: absolute;
+  top: 0px;
+  left: 800px;
   height: 30px;
   width: 100px;
-  font-size: 16px;
+  font-size: 20px;
   background-color:black;
   border: none;
   color:white;

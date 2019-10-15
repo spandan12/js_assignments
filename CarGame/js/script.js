@@ -1,6 +1,7 @@
 var CARWIDTH = 70;
 var CARHEIGHT = 100;
 var COUNT = 0;
+var FPS = 60;
 function randomNumber(min, max){
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -12,7 +13,10 @@ class GameWindow{
         this.moveInterval = null;
         this.updateInterval = null;
         this.obstacleInterval = null;
-        this.score = 0;
+        this.score = [];
+        this.score[0] = 0;
+        this.bulletsCount = [];
+        this.bulletsCount[0] = 0;
         this.width = null;
         this.height = null;
         this.canvas = null;
@@ -22,7 +26,8 @@ class GameWindow{
         this.moveRoad();
         this.obstacles = [];
         this.createObstacles();
-        this.playCar =  new playCar(1,500,this.context, this.obstacles); 
+        this.gameOverState = false;
+        this.playCar =  new playCar(1,500,this.context, this.obstacles,this.score,this.bulletsCount); 
         // this.obstable = new obstaleCar(2,0,this.context);
         this.updateCanvas();
     }
@@ -40,7 +45,7 @@ class GameWindow{
                 backgroundPosition: `0 ${that.bgTop}px`, 
             });
             // console.log(that.bgTop);
-        }, 50);
+        }, 1000/FPS);
     }
 
     createObstacles(){
@@ -54,7 +59,8 @@ class GameWindow{
     }
 
     updateScore(){
-        document.getElementById('score').innerHTML = 'Score: ' + this.score;
+        document.getElementById('score').innerHTML = this.score[0];
+        document.getElementById('bullets').innerHTML = "Bullets: " + (10 - this.bulletsCount[0]);
     }
 
     checkCollisions(){
@@ -69,7 +75,7 @@ class GameWindow{
     removeObstacles(){
         for(let i=0; i<this.obstacles.length; i++){
             if(((this.obstacles[i].isOutOfCanvas())==true) && ((this.obstacles[i].doesCollide(this.playCar))==false)){
-                this.score +=1; 
+                this.score[0] +=1; 
                 this.obstacles.splice(i,1);     
             }
         } 
@@ -92,7 +98,7 @@ class GameWindow{
             that.checkCollisions();
             that.removeObstacles();
             that.updateScore();
-        }, 1);
+        }, 1000/FPS);
     }
 
     gameOver(){
@@ -104,7 +110,7 @@ class GameWindow{
         var that=this;
         this.obstacleInterval = setInterval(function(){
             location.reload();
-        }, 1300);
+        }, 1000);
         
     }
 }
@@ -114,7 +120,7 @@ class Bullet{
         this.index = index;
         this.x = (this.index * 200) + 70 + (CARWIDTH/2);
         this.context = ctx;
-        this.y = y - (CARHEIGHT/2);
+        this.y = y;
         this.draw();
     }
 
@@ -125,7 +131,7 @@ class Bullet{
     }
 
     move(){
-        this.y -= 5;
+        this.y -= 2;
     }
 
     updateBullet(){
@@ -174,7 +180,7 @@ class obstaleCar extends Car{
     }
 
     move(){
-        this.y += 1;
+        this.y += 3;
     }
 
     updateObstacle(){
@@ -203,7 +209,7 @@ class obstaleCar extends Car{
     doesKill(bullet)
     {
         
-        if((bullet.index == this.index) && (this.y>= bullet.y)){
+        if((bullet.index == this.index) && ((this.y+CARHEIGHT)>= bullet.y)){
             return true;
         }
 
@@ -216,17 +222,29 @@ class obstaleCar extends Car{
 }
 
 class playCar extends Car{
-    constructor(index,y,ctx,obstacles){
+    constructor(index,y,ctx,obstacles,score,bulletsCount){
         super(index,y,ctx);
         this.obstacles = obstacles;
         this.drawPlaycar();
         this.bullets = [];
+        this.bulletsCount = bulletsCount;
         this.up = false;
+        this.score = score;
         this.img.src = './images/playcar2.png';
         var Interval = setInterval(function(){
-            this.up = false;
             document.onkeydown = this.onkeyStroke.bind(this);
         }.bind(this), 50);
+
+        document.onkeypress = function(event){
+            var pressedKey = event.key;
+            if (pressedKey == ' ') {
+                this.up = true;  
+                var Timeout = setTimeout(function(){
+                     this.up=false;
+                }.bind(this),10 );
+            }
+        }.bind(this);
+
         this.createAllBullets();
         this.updateBullets();
         this.checkBulletKilled();
@@ -244,17 +262,14 @@ class playCar extends Car{
 
     createAllBullets(){
         var Interval1 = setInterval(function(){
-            if(this.up == true){
-                if(this.bullets.length<= 5){
-                    let newbullet = new Bullet(this.index, this.y, this.context);
-                    this.bullets.push(newbullet);
-                }
-                else{
-                    this.removeOutBullets();
-                }               
-            }
-            
-        }.bind(this), 40);
+            // console.log(this.score[0]);
+            if((this.up == true) && (this.bulletsCount <= 9)){
+                let newbullet = new Bullet(this.index, this.y, this.context);
+                this.bullets.push(newbullet);
+                this.bulletsCount[0]++;
+                
+            }     
+        }.bind(this), 60);
 
     }
     
@@ -263,26 +278,31 @@ class playCar extends Car{
             for(let i=0; i<this.bullets.length; i++){
                 this.bullets[i].updateBullet();
             }
-        }.bind(this), 5);
+            this.removeOutBullets();
+        }.bind(this), 10);
     }
     
     removeOutBullets(){
-        let bulletLength = this.bullets.length;
-        let lastBullet = bulletLength - 1;
-        let checkvalue = this.bullets[lastBullet].isOutOfFrame();
-        if(this.bullets[lastBullet].isOutOfFrame() == true){
-            this.bullets = [];
-        }  
+        for(let i=0; i<this.bullets.length; i++){
+            if(this.bullets[i].isOutOfFrame() == true){
+                this.bullets.splice(i,1);
+            }
+        }
+        
+          
     }
 
     checkBulletKilled(){
         var Interval1 = setInterval(function(){
             if(this.bullets.length >= 1){
                 for(let i=0; i<this.obstacles.length; i++){
-                    if(this.obstacles[i].doesKill(this.bullets[0]) == true){
-                        console.log('hey');
-                        this.bullets = [];
-                        this.obstacles.splice(i,1);
+                    for(let j=0; j<this.bullets.length; j++){
+                        if(this.obstacles[i].doesKill(this.bullets[j]) == true){
+                            this.bullets.splice(j,1);
+                            this.obstacles.splice(i,1);
+                            this.score[0] += 1; 
+                            continue;
+                        }
                     }
                 }
             }
@@ -298,9 +318,9 @@ class playCar extends Car{
     
     onkeyStroke(e){
         e = e || window.event;
-        this.up = false;
+        // this.up = false;
         if (e.keyCode == '37') {
-            this.up = false; 
+            // this.up = false; 
             if(this.index == 1){
                 this.index = 0;                 
             }
@@ -310,7 +330,7 @@ class playCar extends Car{
             
         }
         else if (e.keyCode == '39') {
-            this.up = false; 
+            // this.up = false; 
             if(this.index == 1){
                 this.index = 2;    
             }
@@ -318,15 +338,6 @@ class playCar extends Car{
                 this.index = 1;   
             }
         }
-
-        if(e.keyCode == '38'){
-            // console.log('up arrow');
-            this.up = true;
-        }
-        else{
-            this.up = false; 
-        }
-            
     }
 }
 

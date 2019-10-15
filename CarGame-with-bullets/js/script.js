@@ -234,6 +234,7 @@ class playCar extends Car{
         var Interval = setInterval(function(){
             document.onkeydown = this.onkeyStroke.bind(this);
         }.bind(this), 50);
+        
 
         document.onkeypress = function(event){
             var pressedKey = event.key;
@@ -248,7 +249,7 @@ class playCar extends Car{
         this.createAllBullets();
         this.updateBullets();
         this.checkBulletKilled();
-
+        this.powerUp();
     }
 
     
@@ -264,6 +265,7 @@ class playCar extends Car{
         var Interval1 = setInterval(function(){
             // console.log(this.score[0]);
             if((this.up == true) && (this.bulletsCount <= 9)){
+                document.getElementById('bullets').style.backgroundColor = 'black';
                 let newbullet = new Bullet(this.index, this.y, this.context);
                 this.bullets.push(newbullet);
                 this.bulletsCount[0]++;
@@ -314,6 +316,15 @@ class playCar extends Car{
         this.x = (this.index * 200) + 70;
         this.context.drawImage(this.img, this.x, this.y, CARWIDTH, CARHEIGHT);
         // this.updateBullets();
+    }
+
+    powerUp(){
+        var Interval1 = setInterval(function(){
+            // console.log(this.score[0]);  
+            this.bulletsCount[0] = 0;
+            document.getElementById('bullets').style.backgroundColor = 'red';
+        }.bind(this), 20000);
+
     }
     
     onkeyStroke(e){

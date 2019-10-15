@@ -40,9 +40,9 @@ canvas{
  #bullets{
   position: absolute;
   top: 0px;
-  left: 800px;
+  left: 810px;
   height: 30px;
-  width: 100px;
+  width: 90px;
   font-size: 20px;
   background-color:black;
   border: none;

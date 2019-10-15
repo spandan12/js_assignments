@@ -50,7 +50,7 @@ class GameWindow{
             let obstacle = new obstaleCar(index,0,that.context);
             that.obstacles.push(obstacle);
             // console.log(that.obstacles);
-        }, 3000);
+        }, 1000);
     }
 
     updateScore(){
@@ -67,12 +67,10 @@ class GameWindow{
 
 
     removeObstacles(){
-        console.log(this.obstacles.length);
-        for(let i=0; i<this.obstacles.length; i++){
+        for(var i=0; i<this.obstacles.length; i++){
             if(((this.obstacles[i].isOutOfCanvas())==true) && ((this.obstacles[i].doesCollide(this.playCar))==false)){
-                this.obstacles.pop(this.obstacles[i]);
                 this.score +=1; 
-                // console.log('hello');      
+                this.obstacles.splice(i,1);     
             }
         } 
 

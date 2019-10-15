@@ -99,8 +99,13 @@ class GameWindow{
         clearInterval(this.moveInterval);
         clearInterval(this.updateInterval);
         clearInterval(this.obstacleInterval);
-        document.getElementById('text').style.display = 'block';
+        // document.getElementById('text').style.display = 'block';
         document.getElementById('game-over').style.display = 'block';
+        var that=this;
+        this.obstacleInterval = setInterval(function(){
+            location.reload();
+        }, 1300);
+        
     }
 }
 

@@ -28,7 +28,6 @@ class GameWindow{
         this.createObstacles();
         this.gameOverState = false;
         this.playCar =  new playCar(1,500,this.context, this.obstacles,this.score,this.bulletsCount); 
-        // this.obstable = new obstaleCar(2,0,this.context);
         this.updateCanvas();
     }
     
@@ -44,7 +43,6 @@ class GameWindow{
             Object.assign(that.canvas.style,{
                 backgroundPosition: `0 ${that.bgTop}px`, 
             });
-            // console.log(that.bgTop);
         }, 1000/FPS);
     }
 
@@ -54,7 +52,6 @@ class GameWindow{
             let index = randomNumber(0,3);
             let obstacle = new obstaleCar(index,0,that.context);
             that.obstacles.push(obstacle);
-            // console.log(that.obstacles);
         }, 1300);
     }
 
@@ -105,7 +102,6 @@ class GameWindow{
         clearInterval(this.moveInterval);
         clearInterval(this.updateInterval);
         clearInterval(this.obstacleInterval);
-        // document.getElementById('text').style.display = 'block';
         document.getElementById('game-over').style.display = 'block';
         var that=this;
         this.obstacleInterval = setInterval(function(){
@@ -256,14 +252,12 @@ class playCar extends Car{
     drawPlaycar(){
         var that=this;
         this.img.onload = function () {
-            // console.log(that.x);
             that.context.drawImage(that.img, that.x, that.y, CARWIDTH, CARHEIGHT);
         };
     }
 
     createAllBullets(){
         var Interval1 = setInterval(function(){
-            // console.log(this.score[0]);
             if((this.up == true) && (this.bulletsCount <= 9)){
                 document.getElementById('bullets').style.backgroundColor = 'black';
                 let newbullet = new Bullet(this.index, this.y, this.context);
@@ -315,12 +309,10 @@ class playCar extends Car{
     updatePlayCar(){
         this.x = (this.index * 200) + 70;
         this.context.drawImage(this.img, this.x, this.y, CARWIDTH, CARHEIGHT);
-        // this.updateBullets();
     }
 
     powerUp(){
-        var Interval1 = setInterval(function(){
-            // console.log(this.score[0]);  
+        var Interval1 = setInterval(function(){  
             this.bulletsCount[0] = 0;
             document.getElementById('bullets').style.backgroundColor = 'red';
         }.bind(this), 20000);
@@ -329,9 +321,7 @@ class playCar extends Car{
     
     onkeyStroke(e){
         e = e || window.event;
-        // this.up = false;
         if (e.keyCode == '37') {
-            // this.up = false; 
             if(this.index == 1){
                 this.index = 0;                 
             }
@@ -341,7 +331,6 @@ class playCar extends Car{
             
         }
         else if (e.keyCode == '39') {
-            // this.up = false; 
             if(this.index == 1){
                 this.index = 2;    
             }

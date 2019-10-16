@@ -1,3 +1,0 @@
-var newGame = new Game();
-
-

@@ -13,18 +13,14 @@ class Bird{
         this.height = 26;
         this.select = 0;
         this.selectControl = 0;
-        this.gravity = 9.81 * 0.01;
-        this.velocity = 0.11;
+        this.gravity = 3 * 0.01;
+        this.velocity = 1;
         this.up = up;
         this.dy = 0;
-        // console.log(this.up);
 
     }
 
     draw(){
-        // console.log(this.up[0]);
-        // this.upMovement();
-        // console.log(this.dy);
         switch(this.select) {
             case 0:
                 this.cropy = 112;           
@@ -45,12 +41,27 @@ class Bird{
             this.currentState[0] = 'gameOver';
             this.y += 0;
         }
-        
-        else{
-            this.velocity += this.gravity;
-            this.y += (this.velocity - this.dy);
-            this.dy =0;
+
+        if(this.up[0] == true){
+            this.y -= 20;
+            this.velocity -= 0.7;
+            this.gravity =0;
+            this.up[0] = false;
         }
+
+        else if(this.y>=200 && (this.y >= (400-this.height))){
+            this.velocity += this.gravity;
+            this.y += (this.velocity);
+        }
+        
+        this.velocity += this.gravity;
+        this.y += this.velocity;
+
+        if(this.gravity == 0){
+            this.gravity = 3 * 0.01;
+            // this.velocity = 0.5;
+        }
+    
 
 
         if((this.selectControl % 7) == 0){
@@ -59,26 +70,16 @@ class Bird{
         
     }
 
-    upMovement(){
-        if(this.currentState[0] == 'play'){
-            this.y -= 100;
-            console.log(this.y);
-        }
-        // this.y += 2;
-    }
     
     checkPipeCollision(pipe){
         
         let checkxValue = this.x + this.width;
-        // console.log(checkxValue);
         
         let pipexvalue = pipe.x + this.width;
-        // console.log(pipexvalue);
         let checkyvalue = this.y + this.height;
         
         
         if(pipe.x <= checkxValue && pipexvalue >= this.x && ((this.y <= pipe.upHeight) || (checkyvalue >= pipe.downy) )){    
-            // console.log('hi');
             return true;
         }
         else{

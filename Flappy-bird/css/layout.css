@@ -6,6 +6,8 @@
 
 
 canvas{
+   float: left;
+   /* margin-top: 50px; */
    background-color: skyblue;
    margin-left: 300px;
   }

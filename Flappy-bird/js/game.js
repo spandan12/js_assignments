@@ -1,5 +1,8 @@
 class Game{
-    constructor(){
+    constructor(idname,character){
+        this.idname = idname;
+        this.checkCharacter = character;
+        console.log(this.checkCharacter);
         this.keyDetect();
         this.up = []
         this.up[0] = false;
@@ -22,7 +25,7 @@ class Game{
 
     
     getGameWindow(){
-        this.canvas = document.getElementById('canvas');
+        this.canvas = document.getElementById(this.idname);
         this.context = this.canvas.getContext('2d');
     }
 
@@ -55,6 +58,7 @@ class Game{
                 this.pipeController.updatePipes();
                 this.CheckCollision();
                 this.updateScore();
+                
               break;
             case 'gameOver':
                 this.drawGameOver();
@@ -82,11 +86,15 @@ class Game{
     keyDetect(){
         document.onkeydown = function(event){
             var pressedKey = event.key;
-            if (pressedKey == ' ') {
-                // this.up[0] = true;  
-                // this.up[1] += 1;
-                this.bird.upMovement();
+            if (pressedKey == this.checkCharacter) {
+                event.preventDefault();
+            
+            if(this.currentState[0] == 'play'){
+                this.up[0] = true;
+                
             }
+        }
+            
             
         }.bind(this);
     }

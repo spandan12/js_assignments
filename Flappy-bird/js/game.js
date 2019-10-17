@@ -3,7 +3,7 @@ class Game{
         this.idname = idname;
         this.checkCharacter = character;
         console.log(this.checkCharacter);
-        this.keyDetect();
+        // this.keyDetect();
         this.up = []
         this.up[0] = false;
         this.up[1] = 0;
@@ -83,20 +83,15 @@ class Game{
         }.bind(this);
     }
 
-    keyDetect(){
-        document.onkeydown = function(event){
-            var pressedKey = event.key;
-            if (pressedKey == this.checkCharacter) {
-                event.preventDefault();
-            
-            if(this.currentState[0] == 'play'){
-                this.up[0] = true;
-                
-            }
+    keyDetect(pressedKey){
+        if (pressedKey == this.checkCharacter) {
+            event.preventDefault();
+        
+        if(this.currentState[0] == 'play'){
+            this.up[0] = true;     
         }
-            
-            
-        }.bind(this);
+
+    }
     }
 
     CheckCollision(){

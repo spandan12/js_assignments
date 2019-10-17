@@ -13,7 +13,7 @@ class Bird{
         this.height = 26;
         this.select = 0;
         this.selectControl = 0;
-        this.gravity = 3 * 0.01;
+        this.gravity = 4.5 * 0.01;
         this.velocity = 1;
         this.up = up;
         this.dy = 0;
@@ -58,7 +58,7 @@ class Bird{
         this.y += this.velocity;
 
         if(this.gravity == 0){
-            this.gravity = 3 * 0.01;
+            this.gravity = 4.5 * 0.01;
             // this.velocity = 0.5;
         }
     

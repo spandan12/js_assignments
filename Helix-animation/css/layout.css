@@ -1,0 +1,11 @@
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+
+
+/* canvas{
+  border: 3px solid aqua;
+} */

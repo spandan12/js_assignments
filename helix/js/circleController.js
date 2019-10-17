@@ -2,30 +2,48 @@ class CircleController{
     constructor(context){
         this.context = context;
         this.startPositionX = 0;
-        this.finishPositionX = 180;
+        this.finishPositionX = 300;
         this.SinX = [];
         this.SinY = [];
-        this.circles = [];
-        this.drawSineWave();
 
+        this.CosX = [];
+        this.CosY = [];
+        this.circles = [];
+        
+
+        this.drawCosWave(0);
+        this.drawCosWave(30);
+        this.drawCosWave(60);
+        this.drawCosWave(90);
+
+        this.drawSineWave(0);
+        this.drawSineWave(30);
+        this.drawSineWave(60);
+        this.drawSineWave(90);
     }
 
-    drawSineWave(){
+    drawSineWave(offset){
         for(let i=this.startPositionX; i<this.finishPositionX; i+=50){
-            let temp = (i* Math.PI)/180
+            let temp = (i* Math.PI)/180;
             this.SinX[i] = i;
-            this.SinY[i] = (Math.sin(temp))* 50 + 250;
-            // console.log('hey');
-            var circle = new Circle(this.context, i);
+            this.SinY[i] = (Math.sin(temp))* 50 + offset;
+            var circle = new Circle(this.context, i , this.SinY[i], 'pink', 'sine');
+            this.circles.push(circle);
+        }
+    }
+
+    drawCosWave(offset){
+        for(let i=this.startPositionX; i<this.finishPositionX; i+=50){
+            let temp = (i* Math.PI)/180-180;
+            this.CosX[i] = i;
+            this.CosY[i] = (Math.sin(temp))* 50 + offset;
+            var circle = new Circle(this.context, i , this.CosY[i],'red', 'cos');
             this.circles.push(circle);
         }
     }
 
     update(){
-        // console.log(this.circles.length);   
         for(let i=0; i< this.circles.length; i++){
-            // console.log(;
-            // this.context.clearRect(0, 0, canvas.width, canvas.height);
             this.circles[i].update();
         }
     }

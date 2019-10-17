@@ -7,4 +7,3 @@ document.onkeydown = function(event){
     newGame2.keyDetect(pressedKey);
 
 };
-

@@ -1,2 +1,2 @@
-helix = new Helix('canvas1', 200, 200, 8, 8, 'red', 'pink');
+helix = new Helix('canvas1', 300, 300, 8, 14, 'red', 'pink');
 helix.Animate();

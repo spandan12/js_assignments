@@ -9,7 +9,8 @@ class circleController{
             x : 100,
             y : 60
         }
-        this.gap = 20;
+        this.gapX = 20;
+        this.gapY = 30;
         this.circles = [];
         this.update();
     }
@@ -32,7 +33,7 @@ class circleController{
         let currentPosY = this.initialCenter.y;
 
         for(let i = 0; i < this.noOfRows; i++){
-            currentPosY += this.gap;
+            currentPosY += this.gapY;
 
             let currentPoxX = 0;
             let phaseIncrease = 6;
@@ -41,7 +42,7 @@ class circleController{
             for(let j = 0; j < this.noOfCols; j++){
                 let circle = new Circle(this.context, color, isOutOfPhase);
 
-                circle.center.x = currentPoxX += this.gap;
+                circle.center.x = currentPoxX += this.gapX;
                 circle.center.y = currentPosY;
                 circle.currentX = currentPhase += phaseIncrease;
                 circle.currentY = currentPosY;

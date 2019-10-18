@@ -1,50 +1,59 @@
-class CircleController{
-    constructor(context){
+class circleController{
+    constructor(context, noOfRows, noOfCols, color1, color2){
         this.context = context;
-        this.startPositionX = 0;
-        this.finishPositionX = 300;
-        this.SinX = [];
-        this.SinY = [];
-
-        this.CosX = [];
-        this.CosY = [];
+        this.noOfRows = noOfRows;
+        this.noOfCols = noOfCols;
+        this.color1 = color1;
+        this.color2 = color2;
+        this.initialCenter = {
+            x : 100,
+            y : 60
+        }
+        this.gap = 20;
         this.circles = [];
-        
-
-        this.drawCosWave(0);
-        this.drawCosWave(30);
-        this.drawCosWave(60);
-        this.drawCosWave(90);
-
-        this.drawSineWave(0);
-        this.drawSineWave(30);
-        this.drawSineWave(60);
-        this.drawSineWave(90);
+        this.update();
     }
 
-    drawSineWave(offset){
-        for(let i=this.startPositionX; i<this.finishPositionX; i+=50){
-            let temp = (i* Math.PI)/180;
-            this.SinX[i] = i;
-            this.SinY[i] = (Math.sin(temp))* 50 + offset;
-            var circle = new Circle(this.context, i , this.SinY[i], 'pink', 'sine');
-            this.circles.push(circle);
-        }
-    }
-
-    drawCosWave(offset){
-        for(let i=this.startPositionX; i<this.finishPositionX; i+=50){
-            let temp = (i* Math.PI)/180-180;
-            this.CosX[i] = i;
-            this.CosY[i] = (Math.sin(temp))* 50 + offset;
-            var circle = new Circle(this.context, i , this.CosY[i],'red', 'cos');
-            this.circles.push(circle);
-        }
-    }
-
-    update(){
-        for(let i=0; i< this.circles.length; i++){
+    draw(){
+        for(let i = 0; i < this.circles.length; i++){
             this.circles[i].update();
+            this.circles[i].draw();
         }
     }
+
+    create(isOutOfPhase){
+
+        var color = this.color1;
+
+        if(isOutOfPhase == true){
+            color = this.color2;
+        }
+
+        let currentPosY = this.initialCenter.y;
+
+        for(let i = 0; i < this.noOfRows; i++){
+            currentPosY += this.gap;
+
+            let currentPoxX = 0;
+            let phaseIncrease = 6;
+            let currentPhase = 0;
+
+            for(let j = 0; j < this.noOfCols; j++){
+                let circle = new Circle(this.context, color, isOutOfPhase);
+
+                circle.center.x = currentPoxX += this.gap;
+                circle.center.y = currentPosY;
+                circle.currentX = currentPhase += phaseIncrease;
+                circle.currentY = currentPosY;
+
+                this.circles.push(circle);
+            }
+        }
+    }
+    update(){
+        this.create(false);
+        this.create(true);
+    }
+
+
 }

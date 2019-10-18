@@ -1,5 +1,5 @@
-.clearfix::after {
-  content: "";
-  clear: both;
-  display: table;
+canvas{
+    margin: 20px;
 }
+
+

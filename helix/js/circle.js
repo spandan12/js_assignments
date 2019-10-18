@@ -1,77 +1,51 @@
 class Circle{
-    constructor(context, offsetx, offsety,color,wave){
+    constructor(context, color, isPhaseOut){
         this.context = context;
-        this.centerX = 100;
-        this.centerY = 200;
-        this.radius = 2;
-        // this.draw(); 
-        this.wave =wave;
-        this.oscillateControl =0;
-
-        // if(this.wave == 'sine'){
-        //     this.oscillateControl = 0;
-        // }
-
-        // else if(this.wave == 'cos'){
-        //     this.oscillateControl = 360;
-        // }
-          
-        this.offsetx = offsetx;
-        this.offsety = offsety; 
+        this.radius = 10;
+        this.radiusAmp = 10;
+        this.isPhaseOut = isPhaseOut;
+        this.center = {
+            x : 100,
+            y : 100
+        }
+        this.currentX = 0;
+        this.currentY = 100;
+        this.degree = 180;
+        this.amplitude = 50;
+        this.omega = 2;
         this.color = color;
-        // console.log(offset);
-        
     }
 
     draw(){
-        this.context.beginPath();
-        this.context.arc(this.centerX + this.offsetx, this.centerY + this.offsety, this.radius, 0, 2 * Math.PI, false);
-        this.context.fillStyle = this.color;
-        this.context.strokeStyle = this.color;
-        this.context.fill();
-        this.context.stroke();
-    }
 
+        this.context.beginPath();
+        this.context.fillStyle = this.color;
+        this.context.arc(this.center.x, this.center.y, this.radius, 0, 2 * Math.PI);
+        this.context.closePath();
+        this.context.fill();
+    }
 
     update(){
         
+        let tempX;
+        
+        if(this.currentX <= this.degree){
+            this.currentX++;
+            tempX = (this.omega * this.currentX * Math.PI)/this.degree;
 
-        if(this.wave == 'sine'){
-            this.oscillateControl += 10  ;
-            if(this.oscillateControl == 360){
-                this.oscillateControl = 0;
+            if(this.isPhaseOut == false){
+                this.center.y =  this.amplitude * Math.sin(tempX) + this.currentY;
+                this.radius = this.radiusAmp/2 * Math.cos(tempX) + this.radiusAmp/2;
             }
-            let degree = (this.oscillateControl * Math.PI)/180;
-            this.centerY = 20 * Math.sin(degree) + 200;
-            if(this.offsetx<= 100 ){
-                this.radius = 5 * Math.cos(degree) + 6;
-            }
-    
             else{
-                this.radius = -5 * Math.cos(degree) + 6;
+                this.center.y =  this.amplitude * Math.sin(tempX + Math.PI) + this.currentY;
+                this.radius = this.radiusAmp/2 * Math.cos(tempX + Math.PI) + this.radiusAmp/2;
             }
+            
         }
-
-        else if(this.wave == 'cos'){
-            this.oscillateControl -= 10  ;
-            if(this.oscillateControl == -360){
-                this.oscillateControl = 0;
-            }
-            let degree = (this.oscillateControl * Math.PI)/180;
-            this.centerY = 20 * Math.sin(degree) + 200;
-            if(this.offsetx<= 100 ){
-                this.radius = -5 * Math.cos(degree) + 6;
-            }
-    
-            else{
-                this.radius = 5 * Math.cos(degree) + 6;
-            }
+        else{
+            this.currentX = 0;
         }
-
         
-        
-        
-        
-        this.draw();
     }
 }

@@ -1,5 +1,4 @@
-var newhelix = new Helix('canvas1');
 
-var Interval = setInterval(function(){
-    newhelix.AnimateHelix();
-}.bind(this), 1000/60);
+
+helix = new Helix('canvas1', 200, 200, 8, 8, 'red', 'pink');
+helix.Animate();

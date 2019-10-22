@@ -67,17 +67,19 @@ class chartOutline{
         let i= extremeData1;
         let j = 0;
         let scaledIncrement = this.mostSignificant[0] * this.scaling[0];
+        let k = 0;
 
         while(i<= (extremeData2 + this.mostSignificant[0])){
             
-            let xPoint = j + this.offset[0];
-            // console.log(xPoint, i);
+            let xPoint = k * scaledIncrement + this.offset[0];
+            // console.log(xPoint, i, k);
+            k++;
             this.drawLine(xPoint, 0.902* this.height, xPoint, 0.92 * this.height, 'black');
             let pointLength = this.context.measureText(i + '').width;
             let fontSize = 0.02 * this.height;
             this.insertText(i+ '', fontSize, xPoint- (pointLength/2), 0.95 * this.height);
             i += this.mostSignificant[0];
-            j += scaledIncrement; 
+            j = k * scaledIncrement; 
         }        
     }
 
@@ -93,17 +95,18 @@ class chartOutline{
         let i= extremeData1;
         let j = 0;
         let scaledIncrement = this.mostSignificant[1] * this.scaling[1];
-
-        while(i<= (extremeData2 + this.mostSignificant[1])){
+        let k = 0;
+        while(i <= (extremeData2 + this.mostSignificant[1])){
             
             let yPoint = -j + this.offset[1];
+            k++;
             // console.log(yPoint, i);
             this.drawLine(0.08*this.width, yPoint, 0.098*this.width, yPoint, 'black');
             let pointLength = this.context.measureText(i + '').width;
             let fontSize = 0.02 * this.height;
             this.insertText(i+ '', fontSize, 0.07 * this.width - pointLength, yPoint);
             i += this.mostSignificant[1];
-            j += scaledIncrement;                  
+            j = k * scaledIncrement;                  
         }        
     }
     
@@ -145,5 +148,13 @@ class chartOutline{
 
     getMostSignificant(){
         return this.mostSignificant;
+    }
+
+    getExtremePoints(){
+        let extremes = [];
+        extremes[0] = this.controller.findSmallestNumber(this.XAxis);
+        extremes[1] = this.controller.findSmallestNumber(this.YAxis);
+        
+        return extremes;
     }
 }

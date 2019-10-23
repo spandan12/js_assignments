@@ -23,7 +23,10 @@ class DataController{
         for(let i = 0; i < this.dataLength; i++){
             actualData.push(this.data[i][axisname]);
         }
-
         return actualData;
+    }
+
+    getDataLength(){
+        return this.dataLength;
     }
 }

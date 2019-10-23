@@ -21,6 +21,8 @@ class ZoomEffect{
         this.lowerextremes = this.outline.getLowerExtremePoints();
         this.upperextremes = this.outline.getHigherExtremePoints();
         // this.zoomOutExtremes = null;
+        this.crossImage = new Image();
+        this.crossImage.src = './images/cross.png';
     }
 
 
@@ -40,6 +42,7 @@ class ZoomEffect{
 
                 this.clusterOutline.draw(true);
                 this.clusterDataPlot.draw(true, this.assignedCluster);
+                this.drawCrossPoint();
                 break;
           }
     };
@@ -58,9 +61,8 @@ class ZoomEffect{
     clickEvent(event){
         let x = event.pageX;     
         let y = event.pageY;
-        console.log(x,y);
 
-        if(this.currentState == 'ZoomOut'){
+        if(this.currentState == 'ZoomOut' && this.isCanvasPoint(x, y) == true){
             this.currentState = 'ZoomIn';
             let actualPoints = this.findactualPoint(x,y);
             this.assignedCluster = this.findCluster(actualPoints[0], actualPoints[1]);
@@ -73,6 +75,14 @@ class ZoomEffect{
             this.clusterDataPlot = new DataPlot(this.context, this.xAxis, this.yAxis, clusterController, this.clusterOutline, this.assignedCentroids);
             // console.log(clusterController, this.clusterOutline, this.cluster)
             
+        }
+
+        else if(this.currentState == 'ZoomIn'){
+            console
+            if((x >= this.width-20) && (x<= this.width) && (y >= 0) && (y <= 20)){
+                this.currentState = 'ZoomOut';
+            }
+
         }
         
     }
@@ -115,7 +125,12 @@ class ZoomEffect{
     }
 
     drawCrossPoint(){
-        
+        this.context.drawImage(this.crossImage,0,0,20,20,this.width - 20, 0,20,20); 
+        // this.context.fillStyle = 'rgb(140, 142, 143)';
+        // this.context.fillRect(this.width - 20, 0, 20, 20);
+        // this.context.font = 0.03 * this.height +'px san-serif';
+        // this.context.fillStyle = "white";
+        // this.context.fillText('X' , this.width - 20, 0);
     }
 
 }

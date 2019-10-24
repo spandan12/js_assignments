@@ -78,8 +78,8 @@ class chartOutline{
         let resultExtreme2 = extremeData2;
         this.resultExtremes[0] = resultExtreme1;
         // console.log(isCluster);
-        
-
+        // console.log(extremeData1, extremeData2);
+        let increment =   (extremeData2 - extremeData1) * 20;
         if(isCluster){
             // resultExtreme1 = 5.3;
             // resultExtreme2 = 6.55;
@@ -88,11 +88,11 @@ class chartOutline{
             // console.log(resultExtreme1);
             this.resultExtremes[0] = resultExtreme1;
             
-            if(this.xoffsetExtreme[0] < (extremeData1 - this.zoomOutExtreme1[0])){
-                this.xoffsetExtreme[0] += 0.02;
+            if(this.xoffsetExtreme[0] < (extremeData1 - this.zoomOutExtreme1[0]- (1 / increment))){
+                this.xoffsetExtreme[0] += (1 / increment);
             }
-            if(this.xoffsetExtreme[1] < ( this.zoomOutExtreme2[0] - extremeData2 )){
-                this.xoffsetExtreme[1] += 0.02;
+            if(this.xoffsetExtreme[1] < ( this.zoomOutExtreme2[0] - extremeData2 - (1 / increment))){
+                this.xoffsetExtreme[1] += (1 / increment);
             }
         }
         
@@ -135,6 +135,9 @@ class chartOutline{
         // console.log(isCluster);
         
 
+        let increment =  (extremeData2 - extremeData1) * 20; 
+        
+
         if(isCluster){
             // resultExtreme1 = 5.3;
             // resultExtreme2 = 6.55;
@@ -144,11 +147,11 @@ class chartOutline{
 
             this.resultExtremes[1] = resultExtreme1;
             
-            if(this.yoffsetExtreme[0] < (extremeData1 - this.zoomOutExtreme1[1])){
-                this.yoffsetExtreme[0] += 0.02;
+            if(this.yoffsetExtreme[0] < (extremeData1 - this.zoomOutExtreme1[1] - (1 / increment) )){
+                this.yoffsetExtreme[0] += (1 / increment);
             }
-            if(this.yoffsetExtreme[1] < ( this.zoomOutExtreme2[1] - extremeData2 )){
-                this.yoffsetExtreme[1] += 0.02;
+            if(this.yoffsetExtreme[1] < ( this.zoomOutExtreme2[1] - extremeData2 - (1 / increment))){
+                this.yoffsetExtreme[1] += (1 / increment);
             }
         }
         this.mostSignificant[1] = this.findIncrement(resultExtreme1, resultExtreme2); 
@@ -192,6 +195,26 @@ class chartOutline{
         return mostSignificant;
         
     }
+
+    findIncrementTimes(extremeData1,extremeData2){
+
+        let Difference = (extremeData2 - extremeData1);
+        let exponent= parseInt(((Difference.toExponential() + '').split("e"))[1]);
+        
+        let mostSignificant = Math.pow(10, exponent);
+        let IncrementTimes = (Difference / mostSignificant);
+        
+        while(IncrementTimes <= 8){
+            
+            mostSignificant /= 2;
+            IncrementTimes = (Difference / mostSignificant);
+        }
+
+        return IncrementTimes;
+        
+    }
+
+    
 
     //calculates scaling factor for the reference points
     calculateScaling(extremeData1, extremeData2, canvasData1, canvasData2){

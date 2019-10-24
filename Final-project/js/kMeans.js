@@ -7,7 +7,7 @@ class KMeansAlgorithm{
         // this.centroids = [[5.5, 0.5],[4, 5],[7.8, 6.5]];
         
         this.attributes = Object.keys(this.data[0]);
-       
+        this.noOfIterations = 0;
 
         //find extreme points of both attributes
         this.xDataPoints = this.controller.actualData(this.attributes[0]);
@@ -113,7 +113,7 @@ class KMeansAlgorithm{
     }
 
     LoopAlgorithm(){
-        let noOfIterations = 0;
+        // let noOfIterations = 0;
         let tempCentroid =  [];
         for(let j = 0; j < this.valueOfK; j++){ 
             tempCentroid[j] = [0,0];  
@@ -122,7 +122,7 @@ class KMeansAlgorithm{
         // console.log(this.assigedCentroid);
         let loopCondition = null;
         do{
-            noOfIterations++;
+            this.noOfIterations++;
             this.assignToCentroid();
             tempCentroid = [...this.centroids];
             this.recomputeCentroids();   
@@ -130,20 +130,36 @@ class KMeansAlgorithm{
             // console.log(tempCentroid, this.centroids, loopCondition, noOfIterations);
         }while( loopCondition == true);
 
-        this.getSumofSquaredError();
+        // console.log(this.getSumofSquaredError());
     }
 
     getAssignedCentroid(){
+        // console.log(this.assigedCentroid);
         
         return this.assigedCentroid;
     }
 
-    getSumofSquaredError(){
-        for(let i = 0; i < this.valueOfK; i++){
-            for(let j = 0; j < this.dataLength; j++){
-                this.sumofSqauredError += this.calculateDistance(j, this.centroids[i]);
+    getIndividualSSE(clusterNumber){
+        // console.log(this.centroids);
+        let SSE = 0;
+        for(let j = 0; j < this.dataLength; j++){
+            if(this.assigedCentroid[j] == clusterNumber){
+                SSE += this.calculateDistance(j, this.centroids[clusterNumber]);
             }
-        }       
+            
+        }  
+        
+        return SSE;     
+    }
+
+
+    getSumofSquaredError(){
+        // let SSE = 0;
+        for(let i = 0; i < this.valueOfK; i++){
+            this.sumofSqauredError += this.getIndividualSSE(i);
+        }
+
+        return this.sumofSqauredError;
     }
 
     getCentroids(){
@@ -153,6 +169,11 @@ class KMeansAlgorithm{
 
     getValueOfK(){
         return this.valueOfK;
+    }
+
+    getNoOfIterations(){
+
+        return this.noOfIterations;
     }
 
     

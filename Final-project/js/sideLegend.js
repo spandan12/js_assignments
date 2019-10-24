@@ -27,8 +27,8 @@ class SideLegend{
             let element1 =  document.createElement('div');
             element1.setAttribute('class', 'colorSpan');
             element1.style.backgroundColor = COLORS[i];
-            element1.style.height = '2.5%';
-            element1.style.width = '20%';
+            // element1.style.height = '2.5%';
+            // element1.style.width = '20%';
             innerElements.push(element1);
             document.querySelectorAll('.legends li')[i].appendChild(element1);
 

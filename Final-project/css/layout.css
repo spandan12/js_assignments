@@ -3,9 +3,6 @@ canvas{
     margin-right: 5%;
 }
 
-body{
-    /* background-color: antiquewhite; */
-}
 
 .side-Legend{
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -33,6 +30,8 @@ body{
 
 .colorSpan{
     float: left;
+    height: 15px;
+    width: 15px;
     border-radius: 50%;
     margin-right: 10%;
 }
@@ -40,7 +39,3 @@ body{
 .algorithm-Information{
     line-height: 20px;
 }
-/* 
-.clusterText{
-    float: right;
-} */

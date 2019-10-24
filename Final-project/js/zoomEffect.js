@@ -8,6 +8,7 @@ class ZoomEffect{
         this.controller = controller;
         this.canvas.onclick = this.clickEvent.bind(this);
         this.canvas.onmousemove = this.hoverEvent.bind(this); 
+        this.canvas.ondblclick = this.doubleClickEvent.bind(this);
         this.currentState = 'ZoomOut';
         this.centroids = this.kMeans.getCentroids();
         this.assignedCentroid = this.kMeans.getAssignedCentroid();
@@ -101,6 +102,15 @@ class ZoomEffect{
             // this.currentState = 'ZoomOut';
         }
         
+    }
+
+    doubleClickEvent(event){
+        let x = event.pageX;     
+        let y = event.pageY;
+        if(this.currentState == 'ZoomIn'  && this.isCanvasPoint(x, y) == true){
+            this.currentState = 'ZoomOut';
+        }
+
     }
 
     clickEvent(event){

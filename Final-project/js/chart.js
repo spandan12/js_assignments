@@ -11,8 +11,8 @@ class ScatterPlot{
         this.canvas.height = height;
 
         this.controller = new DataController(data);
-        this.kMeans = new KMeansAlgorithm(data, 7, this.controller);
-        // this.valueOfK = this.kMeans.getValueOfK();
+        this.kMeans = new KMeansAlgorithm(data, 3, this.controller);
+        this.valueOfK = this.kMeans.getValueOfK();
         
 
         this.assignedCentroids = this.kMeans.getAssignedCentroid();

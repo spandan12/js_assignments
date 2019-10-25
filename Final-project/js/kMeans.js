@@ -4,7 +4,6 @@ class KMeansAlgorithm{
         this.valueOfK = k;
         this.controller = controller;
         this.dataLength = this.controller.getDataLength();
-        // this.centroids = [[5.5, 0.5],[4, 5],[7.8, 6.5]];
         
         this.attributes = Object.keys(this.data[0]);
         this.noOfIterations = 0;
@@ -39,7 +38,6 @@ class KMeansAlgorithm{
 
     calculateDistance(index, centroid){
         let squaredDistance = Math.pow((this.xDataPoints[index] - centroid[0]), 2) + Math.pow((this.yDataPoints[index] - centroid[1]), 2);
-        // let distance = Math.pow(squaredDistance, 0.5);
         return squaredDistance;
     }
 

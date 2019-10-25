@@ -15,6 +15,7 @@ class ScatterPlot{
         this.kMeans = new KMeansAlgorithm(data, 3, this.controller);
         this.valueOfK = this.kMeans.getValueOfK();
         
+        this.dbScan = new DBSCAN(data, EPSILON, MIN_POINTS, this.controller);
 
         this.assignedCentroids = this.kMeans.getAssignedCentroid();
         this.outline = new chartOutline(this.context, width, height, XAxis, YAxis, this.controller);
@@ -24,8 +25,7 @@ class ScatterPlot{
     }
 
 
-    draw(){
-        
+    draw(){     
         this.render();
     }
 
@@ -35,7 +35,5 @@ class ScatterPlot{
         this.sideLegend.update();
         requestAnimationFrame(this.render.bind(this));
     }
-
-    
 
 }

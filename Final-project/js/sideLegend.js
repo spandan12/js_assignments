@@ -78,6 +78,11 @@ class SideLegend{
             secondElement.style.display = 'none';
             let thirdElement =  document.querySelectorAll('.algorithm-Information li')[2];
             thirdElement.style.display = 'none';
+            let element3 = document.createElement('li');
+            // console.log()
+            element3.innerHTML = 'No of Points:'+ '  '+ this.zoomEffects.findClusterPoints(index).length;
+            this.informationLi.push(element3);
+            this.information.appendChild(element3);
         }
 
         else if((this.currentState == 'ZoomOut' || this.currentState == 'Hovered') && this.updateState == 'uncheck'){
@@ -91,7 +96,12 @@ class SideLegend{
             secondElement.style.display = 'block';
             let thirdElement =  document.querySelectorAll('.algorithm-Information li')[2];
             thirdElement.style.display = 'block';
+            let fourthElement = document.querySelectorAll('.algorithm-Information li')[3];
+            this.information.removeChild(fourthElement);
+            this.informationLi.splice(3,0);
+            // thirdElement.style.display = 'block';
             this.updateState = 'check';
+            
         }
 
     }

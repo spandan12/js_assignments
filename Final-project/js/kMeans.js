@@ -29,7 +29,7 @@ class KMeansAlgorithm{
     defineCentroids(){
         for(let i = 0; i < this.valueOfK; i++){
             let rand1 = this.randomNumber(0, this.dataLength);
-            let rand2 = this.randomNumber(0, this.dataLength);
+            // let rand2 = this.randomNumber(0, this.dataLength);
             // console.log(rand2);
             let centroid = [this.xDataPoints[rand1], this.yDataPoints[rand1]];
             this.centroids.push(centroid);   
@@ -95,7 +95,7 @@ class KMeansAlgorithm{
     }
 
     hasCentroidsChanged(centroid1, centroid2){
-        let delta = 0.0000001;
+        let delta = 0.0000000001;
         let changed = false;
         for(let i = 0; i< this.valueOfK; i++){
             if((Math.abs(centroid1[i][0] - centroid2[i][0])) >= delta){

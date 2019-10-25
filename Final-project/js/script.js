@@ -1,4 +1,2 @@
-var controller = new DataController(data[0]);
-
-var plot = new ScatterPlot('sample', 700, 500, data[0], 'sepal_length', 'sepal_width');
+var plot = new ScatterPlot('sample', CANVAS_WIDTH, CANVAS_HEIGHT, DATA_DETAILS[DATA_INDEX][0], DATA_DETAILS[DATA_INDEX][1], DATA_DETAILS[DATA_INDEX][2]);
 plot.draw();

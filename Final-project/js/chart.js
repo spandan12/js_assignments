@@ -3,6 +3,7 @@ class ScatterPlot{
         this.canvas = document.createElement('canvas');
         this.context = this.canvas.getContext('2d');
         this.canvas.setAttribute('id',Id);
+        // this.wrapper = document.getElementsByClassName('wrapper')[0];
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         Object.assign(this.canvas.style,{
             backgroundColor: 'rgb(212, 216, 219)',
@@ -11,7 +12,7 @@ class ScatterPlot{
         this.canvas.height = height;
 
         this.controller = new DataController(data);
-        this.kMeans = new KMeansAlgorithm(data, 7, this.controller);
+        this.kMeans = new KMeansAlgorithm(data, 3, this.controller);
         this.valueOfK = this.kMeans.getValueOfK();
         
 

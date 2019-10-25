@@ -3,6 +3,10 @@ const RIGHT_EXTREME = 0.975;
 const TOP_EXTREME = 0.0125;
 const BOTTOM_EXTREME = 0.902;
 const IMAGE_SIZE = 20;
-const COLORS = ['#FF0000','#00BF11', '#0000FF', '#800080', '#F3F301',   '#FF64BD', '#000000'];
-//red,  green, blue, purple, yellow, pink, black
+const COLORS = ['#8e44ad', '#2c3e50',   '#c0392b' ,  '#d35400','#16a085','#2980b9', '#f39c12'];
+//NEPHRITIS, Belize hole, wisteria, 
 const NoOfInformation = 2;
+const CANVAS_WIDTH = 700;
+const CANVAS_HEIGHT = 500;
+const DATA_INDEX = 0;
+const DATA_DETAILS = [[data[0], 'sepal_length', 'sepal_width'], [data[1], 'attribute1', 'attribute2'], [data[2], 'sepal_length', 'petal_length']];

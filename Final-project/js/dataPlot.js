@@ -63,7 +63,7 @@ class DataPlot{
                 let colorSelector = this.assignedCentroids[i]; 
                 let color = COLORS[colorSelector];
                 if(this.assignedCentroids[i] != clusterValue){
-                    color = this.lightenDarkenColor(color, 100);
+                    color = this.lightenDarkenColor(color, 80);
                     // color = COLORS[colorSelector + 3];
                 }
 

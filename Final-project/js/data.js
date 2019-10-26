@@ -640,8 +640,24 @@ data.push ([
         "attribute2": 7
       },
       {
+        "attribute1": 2,
+        "attribute2": 6
+      },
+      {
         "attribute1": 6,
         "attribute2": 6.5
+      },
+      {
+        "attribute1": 3,
+        "attribute2": 5
+      },
+      {
+        "attribute1": 5,
+        "attribute2": 5
+      },
+      {
+        "attribute1": 7,
+        "attribute2": 5
       },
       {
         "attribute1": 10,
@@ -662,6 +678,14 @@ data.push ([
       {
         "attribute1": 10.7,
         "attribute2": 10.6
+      },
+      {
+        "attribute1": 1,
+        "attribute2": 10
+      },
+      {
+        "attribute1": 10,
+        "attribute2": 1
       }
   ]);
 

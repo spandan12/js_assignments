@@ -93,7 +93,7 @@ class KMeansAlgorithm{
     }
 
     hasCentroidsChanged(centroid1, centroid2){
-        let delta = 0.0000000001;
+        let delta = 0.000001;
         let changed = false;
         for(let i = 0; i< this.valueOfK; i++){
             if((Math.abs(centroid1[i][0] - centroid2[i][0])) >= delta){

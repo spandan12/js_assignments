@@ -14,5 +14,5 @@ const DATA_DETAILS = [[data[0], 'sepal_length', 'sepal_width'],
                      [data[2], 'sepal_length', 'petal_length'],
                      [data[3], 'Annual Income', 'Spending Score']];
 const VALUE_OF_K = 3;
-const EPSILON = 3;
+const EPSILON = 2;
 const MIN_POINTS = 4;

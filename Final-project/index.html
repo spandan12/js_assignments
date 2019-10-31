@@ -6,11 +6,31 @@
         <link rel="stylesheet" href="./css/style.css">
     </head>
     <body>
-        <div class="side-Legend">
-            <ul class="legends">Legends</ul>
-            <ul class="algorithm-Information">Algorithm</ul>
-        </div>
+        <div class="wrapper-body">
+            <div class="tab-window">
+                <div class="title">Cluster Analysis</div>
+                <div class="selectors">
+                    <select class="algorithm">
+                        <option value="kMeans">K Means </option>
+                        <option value="DBSCAN">DBSCAN</option>
+                    </select>
+                <select class="dataset">
+                    <option value="iris">Iris Dataset</option>
+                    <option value="spiral">spiral Dataset</option>
+                    </select>
+                </div>
+                
+            </div>
+            <div class="main-wrapper">
+                    <div class="side-Legend">
+                            <ul class="legends">Legends</ul>
+                            <ul class="algorithm-Information">Algorithm</ul>
+                        </div>
+            </div>
+    </div>
+        
 
+        <script src="./js/clusterArray.js"></script>
         <script src="./js/data.js"></script>
         <script src="./js/constants.js"></script>
         <script src="./js/dataController.js"></script>
@@ -21,6 +41,7 @@
         <script src="./js/dataPlot.js"></script>
         <script src="./js/zoomEffect.js"></script>
         <script src="./js/chart.js"></script>
+        <script src="./js/chartController.js"></script>
         <script src="./js/script.js"></script>
     </body>
 </html>

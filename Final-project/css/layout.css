@@ -1,14 +1,32 @@
+body{
+    background-color: rgb(227, 233, 238);
+}
+.wrapper-body{
+    width : 65%;
+    margin-left: 15%;
+    margin-right: 20%;
+}
+
+.tab-window{
+    margin-top: 20px;
+}
+
+.title{
+    float: left;
+    margin-right: 40%;
+}
+
+.main-wrapper{
+    margin-top: 30px;
+}
+
 canvas{
     float: left;
-    margin-right: 5%;
 }
 
 
 .side-Legend{
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    
-    float: left;
-    /* margin-right: 30%; */
+    float: right;
 }
 
 .side-Legend ul{
@@ -16,16 +34,15 @@ canvas{
     margin-top: 50%;
     margin-bottom: 50%;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 15px;
     list-style: none;
 }
 
 .side-Legend ul li{
     font-weight: normal;
-    font-size: 12px;
+    font-size: 11px;
     margin-top: 10%;
     margin-bottom: 10%;
-    /* list-style: none; */
 }
 
 .colorSpan{

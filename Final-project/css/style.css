@@ -1,0 +1,17 @@
+.tab-window{
+    /* line-height: 20px; */
+    color: rgb(105, 105, 105);
+    font-weight: bold;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.selectors select{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: white;
+    background-color: rgb(163, 161, 161);
+}
+
+.side-Legend{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    float: right;
+}

@@ -1,2 +1,1 @@
-var plot = new ScatterPlot('sample', CANVAS_WIDTH, CANVAS_HEIGHT, DATA_DETAILS[DATA_INDEX][0], DATA_DETAILS[DATA_INDEX][1], DATA_DETAILS[DATA_INDEX][2]);
-plot.draw();
+var chartController = new ChartController();

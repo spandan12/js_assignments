@@ -18,6 +18,7 @@ class KMeansAlgorithm{
         this.LoopAlgorithm();
     }
 
+
     randomNumber(min, max){
         min = Math.ceil(min);
         max = Math.floor(max);

@@ -12,6 +12,10 @@ class DataPlot{
         this.assignedCentroids = assignedCentroids;
     }
 
+    updateAssignedCentroids(assignedCentroids){
+        this.assignedCentroids = assignedCentroids;
+    }
+
     lightenDarkenColor(col, amt) {
   
         var usePound = false;
@@ -82,7 +86,7 @@ class DataPlot{
     plotSinglePoint(x,y,color){
         this.context.beginPath();
         this.context.fillStyle = color;
-        this.context.arc(x, y, 4, 0, 2 * Math.PI);
+        this.context.arc(x, y, 2, 0, 2 * Math.PI);
         this.context.closePath();
         this.context.fill();
     }

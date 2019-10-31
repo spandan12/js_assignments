@@ -1,5 +1,5 @@
 class ZoomEffect{
-    constructor(context, canvas, kMeans, controller, dataPlot, outline, data, xAxis, yAxis, sideLegend){
+    constructor(context, canvas, kMeans, controller, dataPlot, outline, data, xAxis, yAxis, sideLegend, assignedCentroidss){
         this.canvas = canvas;
         this.context = context;
         this.width = this.canvas.width;
@@ -11,7 +11,7 @@ class ZoomEffect{
         this.canvas.ondblclick = this.doubleClickEvent.bind(this);
         this.currentState = 'ZoomOut';
         this.centroids = this.kMeans.getCentroids();
-        this.assignedCentroid = this.kMeans.getAssignedCentroid();
+        this.assignedCentroid = assignedCentroidss;
         this.outline = outline;
         this.dataPlot = dataPlot;
         this.data = data;
@@ -27,6 +27,26 @@ class ZoomEffect{
         this.previousCluster = null;
     }
 
+    setAssignedCentroids(aCentroids){
+        this.assignedCentroid = aCentroids;
+    }
+
+    getDistance(x1,y1, x2, y2){
+        let squaredDistance = Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2);
+
+        return squaredDistance;
+    }
+
+    isNear(distance){
+        let delta = 1;
+        if(distance <= delta){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
 
     calculateDistance(x, y, centroid){
         let squaredDistance = Math.pow((x - centroid[0]), 2) + Math.pow((y - centroid[1]), 2);
@@ -35,7 +55,6 @@ class ZoomEffect{
     }
 
     update(){
-        // console.log(this.currentState);
         switch(this.currentState) {
             
             case 'ZoomOut':
@@ -47,11 +66,9 @@ class ZoomEffect{
                 this.clusterOutline.draw(true);
                 this.clusterDataPlot.draw(1, this.assignedCluster);
                 this.drawCrossPoint();
-                // this.sideLegend.draw();
                 break;
 
             case 'Hovered':
-                // console.log(this.assignedCluster);
                 this.outline.draw(false);
                 this.dataPlot.draw(2, this.assignedCluster);
                 break;
@@ -59,7 +76,6 @@ class ZoomEffect{
     };
 
     isCanvasPoint(x,y){
-
         if( (x >= LEFT_EXTREME * this.width) && (x <= RIGHT_EXTREME * this.width) && (y >= TOP_EXTREME * this.height) && (y <= BOTTOM_EXTREME * this.height)){
             return true;
         }
@@ -70,8 +86,8 @@ class ZoomEffect{
     }
 
     hoverEvent(e){
-        let x = e.clientX;
-        let y = e.clientY;
+        let x = e.clientX - OFFSET_X;
+        let y = e.clientY - OFFSET_Y;
         if(this.currentState == 'ZoomOut' && this.isCanvasPoint(x, y) == true){
             
             let actualPoints = this.findactualPoint(x,y);
@@ -99,14 +115,13 @@ class ZoomEffect{
                     
                 
             }
-            // this.currentState = 'ZoomOut';
         }
         
     }
 
     doubleClickEvent(event){
-        let x = event.pageX;     
-        let y = event.pageY;
+        let x = event.pageX - OFFSET_X;     
+        let y = event.pageY - OFFSET_Y;
         if(this.currentState == 'ZoomIn'  && this.isCanvasPoint(x, y) == true){
             this.currentState = 'ZoomOut';
         }
@@ -114,8 +129,8 @@ class ZoomEffect{
     }
 
     clickEvent(event){
-        let x = event.pageX;     
-        let y = event.pageY;
+        let x = event.pageX - OFFSET_X;     
+        let y = event.pageY - OFFSET_Y;
 
         if((this.currentState == 'ZoomOut' || this.currentState == 'Hovered')  && this.isCanvasPoint(x, y) == true){
             
@@ -149,55 +164,68 @@ class ZoomEffect{
     findactualPoint(x,y){
         let scaling = this.outline.getScaling();
         let offset = this.outline.getOffset();
-        // let extremes = this.outline.getExtremePoints();
         let actualpoints = [];
         actualpoints[0] = ((x - offset[0]) / scaling[0]) + this.lowerextremes[0];
-        actualpoints[1] = (-1 * (y - offset[1]) / scaling[1]) + this.lowerextremes[1]; 
+        actualpoints[1] = ( -1 * (y - offset[1]) / scaling[1]) + this.lowerextremes[1]; 
         
         return actualpoints;
     }
 
-    findCluster(x, y){
-        let valueOfK = this.kMeans.getValueOfK();
-        let assignedCluster = 0;
-        let refDistance = this.calculateDistance(x, y, this.centroids[0]);
-        for(let i = 0; i < valueOfK; i++){
-            let tempDistance = this.calculateDistance(x, y, this.centroids[i]);
-            if(tempDistance < refDistance){
-                refDistance = tempDistance;
-                assignedCluster = i;
-            }           
+    findCluster(x,y){
+        let xdata = this.controller.actualData(this.xAxis);
+        let ydata = this.controller.actualData(this.yAxis);
+        let datalength = this.data.length;
+        let closestDistance = this.getDistance(x, y, xdata[0], ydata[0]);
+        let returnValue = this.assignedCentroid[0];
+        for(let i = 0; i < datalength; i++){
+            
+            let distance = this.getDistance(x,y,xdata[i], ydata[i]);
+            if(distance < closestDistance){
+                
+                closestDistance = distance;
+                returnValue = this.assignedCentroid[i];
+            }
         }
-        let length = this.findClusterPoints(assignedCluster).length;
-        
-        let meanDistance = (this.kMeans.getIndividualSSE(assignedCluster))/length;
-        if(refDistance < meanDistance){
-            return assignedCluster;
-        }
+        return returnValue;
+    
 
-        else{
-            return -1;
-        }
-        // console.log(refDistance, meanDistance);
-        
     }
+
+    // findCluster(x, y){
+    //     let valueOfK = this.kMeans.getValueOfK();
+    //     let assignedCluster = 0;
+    //     let refDistance = this.calculateDistance(x, y, this.centroids[0]);
+    //     for(let i = 0; i < valueOfK; i++){
+    //         let tempDistance = this.calculateDistance(x, y, this.centroids[i]);
+    //         if(tempDistance < refDistance){
+    //             refDistance = tempDistance;
+    //             assignedCluster = i;
+    //         }           
+    //     }
+    //     let length = this.findClusterPoints(assignedCluster).length;
+        
+    //     let meanDistance = (this.kMeans.getIndividualSSE(assignedCluster))/length;
+    //     if(refDistance < meanDistance){
+    //         return assignedCluster;
+    //     }
+
+    //     else{
+    //         return -1;
+    //     }
+        
+    // }
 
     findClusterPoints(index){
         let clusterPoints = [];
         
         for(let i = 0; i< this.assignedCentroid.length; i++){
             if(index == this.assignedCentroid[i]){
-                // console.log()
                 clusterPoints.push(this.data[i]);
             }
         }
         return clusterPoints;
     }
 
-    // checkCorrectCluster(length, assigned){
-
-
-    // }
 
     drawCrossPoint(){
         this.context.drawImage(this.crossImage, this.width - IMAGE_SIZE, 0, IMAGE_SIZE,IMAGE_SIZE); 

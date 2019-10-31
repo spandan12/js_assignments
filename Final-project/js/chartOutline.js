@@ -9,7 +9,6 @@ class chartOutline{
         this.scaling = [];
         this.offset = [];
         this.mostSignificant = [];
-        // this.scalingFactor = 0.1;
         this.zoomOutExtreme1 = null;
         this.zoomOutExtreme2 = null;
         this.xoffsetExtreme = [0,0];
@@ -21,7 +20,6 @@ class chartOutline{
     setZoomOutExtreme(extreme1, extreme2){
         this.zoomOutExtreme1 = extreme1;
         this.zoomOutExtreme2 = extreme2;
-        // console.log(this.zoomOutExtreme1, this.zoomOutExtreme2);
     }
 
     //draws all the components of outline
@@ -77,15 +75,13 @@ class chartOutline{
         let resultExtreme1 = extremeData1;
         let resultExtreme2 = extremeData2;
         this.resultExtremes[0] = resultExtreme1;
-        // console.log(isCluster);
-        // console.log(extremeData1, extremeData2);
-        let increment =   (extremeData2 - extremeData1) * 20;
+        let increment =   (extremeData2 - extremeData1) ;
+        if(increment < 10){
+            increment *= 20;
+        }
         if(isCluster){
-            // resultExtreme1 = 5.3;
-            // resultExtreme2 = 6.55;
             resultExtreme1 = this.zoomOutExtreme1[0] + this.xoffsetExtreme[0];
             resultExtreme2 = this.zoomOutExtreme2[0] - this.xoffsetExtreme[1];
-            // console.log(resultExtreme1);
             this.resultExtremes[0] = resultExtreme1;
             
             if(this.xoffsetExtreme[0] < (extremeData1 - this.zoomOutExtreme1[0]- (1 / increment))){
@@ -132,18 +128,16 @@ class chartOutline{
         let resultExtreme2 = extremeData2;
 
         this.resultExtremes[1] = resultExtreme1;
-        // console.log(isCluster);
         
-
-        let increment =  (extremeData2 - extremeData1) * 20; 
+        let increment =  (extremeData2 - extremeData1) ; 
+        if(increment < 10){
+            increment *= 20;
+        }
         
 
         if(isCluster){
-            // resultExtreme1 = 5.3;
-            // resultExtreme2 = 6.55;
             resultExtreme1 = this.zoomOutExtreme1[1] + this.yoffsetExtreme[0];
             resultExtreme2 = this.zoomOutExtreme2[1] - this.yoffsetExtreme[1];
-            // console.log(resultExtreme1);
 
             this.resultExtremes[1] = resultExtreme1;
             

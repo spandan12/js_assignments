@@ -10,13 +10,15 @@ class DBSCAN{
         this.noOfIterations = 0;
 
         //get actual data points
-        this.xDataPoints = this.controller.actualData(this.attributes[0]);
-        this.yDataPoints = this.controller.actualData(this.attributes[1]);
+        this.xDataPoints = this.controller.findNormalisedData(this.attributes[0]);
+        this.yDataPoints = this.controller.findNormalisedData(this.attributes[1]);
         
-        this.typeOfPoint = []; // core: 0, Border: 1, noise: 2
-        this.corePointIndex = [];
-        this.borderPointIndex = [];
-        this.noisePointIndex = [];
+        this.typeofElement = [];
+        this.visited = [];
+        this.notVisted = [];
+        this.clusters = [];
+
+        this.assignedClusters = [];
         this.loop();
        
     }
@@ -30,6 +32,7 @@ class DBSCAN{
     isInsideRadius(index1, index2){
         let squaredDistance = this.calculateDistance(this.xDataPoints[index1], this.yDataPoints[index1], this.xDataPoints[index2], this.yDataPoints[index2]);
         let squaredRadius = Math.pow(this.epsilon, 2);
+        // console.log(squaredDistance, squaredRadius);
         if(squaredDistance <= squaredRadius){
             return true;
         }
@@ -39,74 +42,82 @@ class DBSCAN{
         }
     }
 
-    isCorePoint(index){
-        let counter = 0;
-        for(let i = 0; i < this.dataLength; i++){
-            if(index == i){
-                continue;
-            }
-            if(this.isInsideRadius(index, i) == true){
-                counter++;
-            }
-            if(counter >= this.minPoints){
-                return true;
-            }
+    findNotVisited(){
+        for(let i = 0; i<this.dataLength; i++){
+            this.notVisted.push(i);
+            this.typeofElement[i] = 'nv';
         }
-
-        return false;
+        
     }
 
-    findCorePoints(){
-        for(let i = 0; i < this.dataLength; i++){
-            if(this.isCorePoint(i) == true){
-                this.typeOfPoint[i] = 0;
-                this.corePointIndex.push(i);
-            }
-            else{
-                this.typeOfPoint[i] = 2;
-            }
-        }
+    removeSpecificValue(val){
+        this.notVisted = this.notVisted.filter(e => e !== val);
     }
 
 
-    findBorderPoints(){
-        for(let i = 0; i < this.dataLength; i++){
-            if(this.typeOfPoint[i] == 0){
-                continue;
-            }
-            for(let j = 0; j < this.corePointIndex.length; j++){
+
+    findCLusters(){
+
+        while(this.notVisted.length != 0){
+            let nextIndex = this.notVisted.shift();
+            // console.log(nextIndex);
+            this.typeofElement[nextIndex] = 'v';
+            this.visited.push(nextIndex);
+            let cArray = new ClusterArray();
+            cArray.addValue(nextIndex);
+            this.clusters.push(cArray);
+            let clusterQueue = [nextIndex];
+            while(clusterQueue.length != 0){
+                let firstElement = clusterQueue.pop();
                 
-                if(this.isInsideRadius(i, this.corePointIndex[j]) == true){
-                    this.typeOfPoint[i] = 1;
-                    this.borderPointIndex.push(i);
-                    break;
-                }
+                for( let i = 0; i < this.dataLength; i++){
+                    if( this.typeofElement[i] == 'nv' ){
+                        if(this.isInsideRadius(i, firstElement) == true){
+                            cArray.addValue(i);
+                            clusterQueue.push(i);
+                            this.removeSpecificValue(i);
+                            this.typeofElement[i] = 'v';
+                        }
+                    }
+                    
+                } 
+                
             }
+
             
+                
         }
 
+              
+        
     }
-
-    findNoisePoints(){
-        for(let i = 0; i < this.dataLength; i++){
-            if(this.typeOfPoint[i] == 2){
-                this.noisePointIndex.push(i);
-            }
-        }
-    }
-
-
-
 
     loop(){
-        this.findCorePoints();
-        this.findBorderPoints();
-        this.findNoisePoints();
-        console.log(this.corePointIndex, this.borderPointIndex, this.noisePointIndex);
+        this.findNotVisited();
+        this.findCLusters();
+        this.findAssignedClusters();
+        // console.log(this.clusters);
+        
     }
 
+    findAssignedClusters(){
+        for(let i = 0; i < this.clusters.length; i++){
+            let clusterArray  = this.clusters[i].getArray();
+            for(let j = 0; j < clusterArray.length; j++ ){
+                this.assignedClusters[clusterArray[j]] = i;
+            }
+        }
 
+    }
 
+    getAssignedClusters(){
+        return this.assignedClusters;
+    }
+
+    getClustersNumber(){
+
+        return this.clusters.length;
+    }
 
 
 
